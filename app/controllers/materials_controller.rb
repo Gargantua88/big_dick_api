@@ -94,12 +94,13 @@ class MaterialsController < ApplicationController
 
   def add_tags
     if material_tags_params.present?
-      material_tags_params.map do |tag|
-        current_tag = Tag.where(slug: tag[:slug]).first_or_initialize
 
-        # Перезапишем title, даже если slug существовал
-        current_tag.title = tag[:title]
-        @material.tags << current_tag
+      @material.tags = material_tags_params.map do |tag|
+                       current_tag = Tag.where(slug: tag[:slug]).first_or_initialize
+
+                       # Перезапишем title, даже если slug существовал
+                       current_tag.title = tag[:title]
+                       current_tag
       end
     end
   end
